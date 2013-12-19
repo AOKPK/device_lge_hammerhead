@@ -36,11 +36,6 @@ PRODUCT_COPY_FILES += \
     device/lge/hammerhead/hs_detect.kl:system/usr/keylayout/hs_detect.kl \
     device/lge/hammerhead/hs_detect.kcm:system/usr/keychars/hs_detect.kcm
 
-#FK specific files
-PRODUCT_COPY_FILES += \
-    device/lge/mako/sbin/fkbootscript.sh:root/sbin/fkbootscript.sh \
-    device/lge/mako/sbin/healthd:root/sbin/healthd
-
 # Prebuilt input device calibration files
 PRODUCT_COPY_FILES += \
     device/lge/hammerhead/touch_dev.idc:system/usr/idc/touch_dev.idc
