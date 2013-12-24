@@ -186,6 +186,9 @@ on post-fs-data
 
     setprop vold.post_fs_data_done 1
 
+    # adjust vibrator amplitude
+    write /sys/class/timed_output/vibrator/amp 100
+
     # Set the CPU Freq Sampling rates
     write /sys/module/msm_thermal/core_control/enabled 0
     write /sys/devices/system/cpu/cpu1/online 1
