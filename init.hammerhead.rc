@@ -443,3 +443,17 @@ service fkbootscript /sbin/fkbootscript.sh
 	disabled
     oneshot
 
+service qrngd /system/bin/qrngd -f
+    class main
+    user root
+    group root
+
+service qrngp /system/bin/qrngp
+    class main
+    user root
+    group root
+    oneshot
+    disabled
+
+on property:sys.boot_completed=1
+    start qrngp
