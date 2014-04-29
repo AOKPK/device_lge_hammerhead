@@ -1,5 +1,15 @@
 #!/system/bin/sh
 
+# Script to launch frandom at boot by Ryuinferno @ XDA 
+chmod 644 /dev/frandom
+chmod 644 /dev/erandom
+mv /dev/random /dev/random.ori
+mv /dev/urandom /dev/urandom.ori
+ln /dev/frandom /dev/random
+chmod 644 /dev/random
+ln /dev/erandom /dev/urandom
+chmod 644 /dev/urandom 
+
 # disable sysctl.conf to prevent ROM interference with tunables
 # backup and replace PowerHAL with custom build to allow OC/UC to survive screen off
 # create and set permissions for /system/etc/init.d if it doesn't already exist
@@ -7,9 +17,6 @@ mount -o rw,remount /system /system;
 [ -e /system/etc/sysctl.conf ] && mv /system/etc/sysctl.conf /system/etc/sysctl.conf.fkbak;
 [ -f /system/lib/hw/power.msm8974.so.bak ] || mv /system/lib/hw/power.msm8974.so /system/lib/hw/power.msm8974.so.bak
 [ -f /system/bin/thermal-engine-hh-bak ] || mv /system/bin/thermal-engine-hh /system/bin/thermal-engine-hh-bak
-
-chmod 755 /system/bin/qrngd
-chmod 755 /system/bin/qrngp
 
 if [ ! -e /system/etc/init.d ]; then
   mkdir /system/etc/init.d
@@ -47,3 +54,13 @@ while sleep 60; do
   done;
   exit;
 done&
+
+# kecinzer tunables
+
+fstrim -v /cache;
+fstrim -v /data; 
+
+echo "20" > /proc/sys/vm/dirty_background_ratio
+echo "40" > /proc/sys/vm/dirty_ratio
+echo "1000" > /proc/sys/vm/dirty_writeback_centisecs
+echo "500" > /proc/sys/vm/dirty_expire_centisecis
