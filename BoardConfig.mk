@@ -114,7 +114,10 @@ TARGET_KERNEL_CONFIG := franco_defconfig
 TARGET_KERNEL_SOURCE := kernel/lge/hammerhead
 TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.10
 
-# Graphite stuff
+# Optimization
+OPT_A_LOT := true
+MAKE_STRICT_GLOBAL := true
+OPT_MEMORY := true
 ENABLE_GRAPHITE := true
 
 # The list below is order dependent
