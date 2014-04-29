@@ -23,6 +23,8 @@ PRODUCT_COPY_FILES += \
     device/lge/hammerhead/init.hammerhead.rc:root/init.hammerhead.rc \
     device/lge/hammerhead/init.hammerhead.usb.rc:root/init.hammerhead.usb.rc \
     device/lge/hammerhead/fstab.hammerhead:root/fstab.hammerhead \
+    device/lge/hammerhead/00_uber:system/etc/init.d/00_uber \
+    device/lge/hammerhead/sbin/aokpkbootscript.sh:root/sbin/aokpkbootscript.sh \
     device/lge/hammerhead/ueventd.hammerhead.rc:root/ueventd.hammerhead.rc
 
 # Input device files for hammerhead
@@ -35,11 +37,6 @@ PRODUCT_COPY_FILES += \
     device/lge/hammerhead/Button_Jack.kcm:system/usr/keychars/msm8974-taiko-mtp-snd-card_Button_Jack.kcm \
     device/lge/hammerhead/hs_detect.kl:system/usr/keylayout/hs_detect.kl \
     device/lge/hammerhead/hs_detect.kcm:system/usr/keychars/hs_detect.kcm
-
-#FK specific files
-PRODUCT_COPY_FILES += \
-    device/lge/mako/sbin/fkbootscript.sh:root/sbin/fkbootscript.sh \
-    device/lge/mako/sbin/healthd:root/sbin/healthd
 
 # Prebuilt input device calibration files
 PRODUCT_COPY_FILES += \

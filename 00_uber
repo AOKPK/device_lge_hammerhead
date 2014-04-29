@@ -1,0 +1,65 @@
+#!/system/bin/sh
+# Script to launch frandom at boot by Ryuinferno @ XDA
+
+chmod 644 /dev/frandom
+chmod 644 /dev/erandom
+mv /dev/random /dev/random.ori
+mv /dev/urandom /dev/urandom.ori
+ln /dev/frandom /dev/random
+chmod 644 /dev/random
+ln /dev/erandom /dev/urandom
+chmod 644 /dev/urandom
+
+#fstrim to speed up file systems
+fstrim -v /cache;
+fstrim -v /data;
+
+echo 0 > /sys/kernel/msm_mpdecision/conf/boost_enabled
+
+echo "1" > /sys/android_touch/s2w_s2sonly
+echo "1" > /sys/android_touch/sweep2wake
+
+# Voltage
+echo "685 685 700 700 700 795 805 825 835 845 865 875 910 925 955 995 1050 1065 1080 1095 1125 1150 1175" > /sys/devices/system/cpu/cpu0/cpufreq/UV_mV_table
+
+# Vibration
+echo 100 > /sys/class/timed_output/vibrator/amp
+
+#Enable Dynamic Fsync by default
+
+echo "1" > /sys/kernel/dyn_fsync/Dyn_fsync_active
+
+# Dirty Ratios can improve battery life.  Bigger numbers means the system will flush ram contents to disk less often which will essentially save battery. 
+
+# dirty_background_ratio default is 10 (background meaning screen is off usually)
+
+echo "20" > /proc/sys/vm/dirty_background_ratio
+
+# dirty_ratio default is 20.
+
+echo "40" > /proc/sys/vm/dirty_ratio
+
+# Default for dirty_writeback_centisecs is 500
+
+echo "1000" > /proc/sys/vm/dirty_writeback_centisecs
+
+# Default for dirty_expire_centisecs is 200
+
+echo "500" > /proc/sys/vm/dirty_expire_centisecis
+
+# Color Control - VomerBalanced
+
+#  Red Positive                = /sys/module/dsi_panel/kgamma_rp
+echo "0 12 19 30 39 48 56 72 83 105 118 126 121 114 109 102 93 73 63 54 40 33 20" > /sys/module/dsi_panel/kgamma_rp
+#  Red Negative                = /sys/module/dsi_panel/kgamma_rn
+echo "0 12 19 30 39 48 56 72 83 105 118 130 121 115 114 102 82 76 63 54 40 33 20" > /sys/module/dsi_panel/kgamma_rn
+#  Green Positive              = /sys/module/dsi_panel/kgamma_gp
+echo "0 12 19 30 39 54 61 78 84 107 123 132 117 110 108 97 90 71 61 52 45 37 21" > /sys/module/dsi_panel/kgamma_gp
+#  Green Negative              = /sys/module/dsi_panel/kgamma_gn
+echo "0 12 19 30 39 54 61 78 84 107 121 130 119 112 107 99 76 72 57 50 45 37 21" > /sys/module/dsi_panel/kgamma_gn
+#  Blue Positive               = /sys/module/dsi_panel/kgamma_bp
+echo "0 12 19 30 39 48 56 72 83 105 121 126 119 112 107 99 91 71 63 53 44 36 22" > /sys/module/dsi_panel/kgamma_bp
+#  Blue Negative               = /sys/module/dsi_panel/kgamma_bn
+echo "0 12 19 30 39 48 56 72 83 105 121 134 119 113 110 98 78 72 59 50 44 36 22" > /sys/module/dsi_panel/kgamma_bn
+#  White Point                 = /sys/module/dsi_panel/kgamma_w
+echo "32" > /sys/module/dsi_panel/kgamma_w
