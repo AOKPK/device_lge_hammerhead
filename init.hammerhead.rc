@@ -46,6 +46,7 @@ on init
 
 on fs
     mount_all ./fstab.hammerhead
+    restorecon_recursive /persist
     setprop ro.crypto.fuse_sdcard true
     write /sys/kernel/boot_adsp/boot 1
 
@@ -136,6 +137,7 @@ on boot
     chown system system /sys/class/leds/green/on_off_ms
     chown system system /sys/class/leds/blue/on_off_ms
     chown system system /sys/class/leds/red/rgb_start
+    chmod 664 /sys/class/leds/lcd-backlight/brightness
 
 on post-fs-data
     mkdir /data/media 0770 media_rw media_rw
@@ -156,7 +158,7 @@ on post-fs-data
     # Create directory used by sensor subsystem
     mkdir /data/system 0755 system system
     mkdir /data/system/sensors
-    chmod 655 /data/system/sensors
+    chmod 755 /data/system/sensors
     write /data/system/sensors/settings 1
     chmod 660 /data/system/sensors/settings
 
@@ -168,19 +170,11 @@ on post-fs-data
     mkdir /persist/sensors
     chmod 775 /persist/sensors
 
-    # Create the directories used by the Wireless subsystem
-    mkdir /data/misc/wifi 0770 wifi wifi
-    mkdir /data/misc/wifi/sockets 0770 wifi wifi
-    mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
-    mkdir /data/misc/dhcp 0770 dhcp dhcp
-    chown dhcp dhcp /data/misc/dhcp
-
     # communicate with mpdecision and thermald
-    mkdir /dev/socket/mpdecision 0770 system system
-    chmod 2770 /dev/socket/mpdecision
+    mkdir /dev/socket/mpdecision 2770 root system
 
     # save rtc time offsets
-    mkdir /data/system/time/ 0700 system system
+    mkdir /data/system/time 0700 system system
 
     # Ecc_Handler qcril.db
     mkdir /data/misc/radio 0770 radio radio
@@ -276,6 +270,7 @@ on property:sys.boot_completed=1
 service rmt_storage /system/bin/rmt_storage
     class core
     user root
+    group system
 
 service bridgemgrd /system/bin/bridgemgrd
     class main
@@ -290,6 +285,7 @@ service qmuxd /system/bin/qmuxd
 
 service netmgrd /system/bin/netmgrd
     class main
+    group radio
 
 # QCOM sensor
 service sensors /system/bin/sensors.qcom
@@ -396,7 +392,7 @@ service fuse_usbdisk /system/bin/sdcard -u 1023 -g 1023 /mnt/media_rw/usbdisk /s
 
 service charger /charger
     class charger
-
+    seclabel u:r:healthd:s0
 
 service qcamerasvr /system/bin/mm-qcamera-daemon
     class late_start
@@ -424,7 +420,7 @@ service ssr_ramdump /system/bin/subsystem_ramdump -m -t emmc
 service thermal-engine /system/bin/thermal-engine-hh
    class main
    user root
-   group root
+   group radio system
 
 service vss_init /vendor/bin/vss_init
     class late_start

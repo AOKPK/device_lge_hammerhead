@@ -103,7 +103,7 @@ PDK_PLATFORM_ZIP_PRODUCT_BINARIES := device/lge/hammerhead-kernel/vmlinux.bz2
 
 BOARD_HAL_STATIC_LIBRARIES := libdumpstate.hammerhead
 
-BOARD_SEPOLICY_DIRS := \
+BOARD_SEPOLICY_DIRS += \
        device/lge/hammerhead/sepolicy
 
 BOARD_CUSTOM_BOOTIMG_MK := device/lge/hammerhead/mkbootimg.mk
@@ -120,15 +120,41 @@ OPT_MEMORY := true
 ENABLE_GRAPHITE := true
 
 # The list below is order dependent
-BOARD_SEPOLICY_UNION := \
-       device.te \
+BOARD_SEPOLICY_UNION += \
        app.te \
-       netd.te \
-       file_contexts
+       bluetooth_loader.te \
+       bridge.te \
+       camera.te \
+       device.te \
+       domain.te \
+       file.te \
+       hostapd.te \
+       irsc_util.te \
+       mediaserver.te \
+       mpdecision.te \
+       netmgrd.te \
+       platform_app.te \
+       qmux.te \
+       radio.te \
+       rild.te \
+       rmt.te \
+       sensors.te \
+       ssr.te \
+       surfaceflinger.te \
+       system_server.te \
+       tee.te \
+       thermald.te \
+       time.te \
+       ueventd.te \
+       vss.te \
+       wpa.te \
+       file_contexts \
+       genfs_contexts \
+       te_macros
 
 HAVE_ADRENO_SOURCE:= false
 
-OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
+#OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
 TARGET_FORCE_HWC_FOR_VIRTUAL_DISPLAYS := true
 
 # QCOM PowerHAL
