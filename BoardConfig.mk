@@ -118,6 +118,7 @@ OPT_A_LOT := true
 MAKE_STRICT_GLOBAL := true
 OPT_MEMORY := true
 ENABLE_GRAPHITE := true
+OPTIMIZE_LINKER := true
 
 # The list below is order dependent
 BOARD_SEPOLICY_UNION := \
